@@ -6,6 +6,6 @@ export function add(a, b) {
 }
 
 // 定義乘法函數
-export function multiply(c, d) {
-    return c * d;
+export function multiply(a, b) {
+    return a * b;
 }
