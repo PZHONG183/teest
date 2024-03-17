@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>任意函式排列執行</title>
+ <script src="https://pzhong183.github.io/teest/functions.js"></script>
+  <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDropdowns();
+            updateDropdowns(); // 初始化下拉框选项
+        });
+
+        // 初始化下拉菜单选项
+        function initializeDropdowns() {
+            const funcs = ['A', 'B', 'C', 'D'];
+            for (let i = 1; i <= 4; i++) {
+                const dropdown = document.getElementById('dropdown' + i);
+                dropdown.innerHTML = '<option value="">选择</option>' + funcs.map(f => `<option value="${f}">${f}</option>`).join('');
+                dropdown.addEventListener('change', function() { updateDropdowns(this.id); });
+            }
+        }
+
+        // 动态更新下拉菜单的选项
+        function updateDropdowns() {
+            let selectedValues = [];
+            for (let i = 1; i <= 4; i++) {
+                let value = document.getElementById('dropdown' + i).value;
+                if (value) selectedValues.push(value);
+            }
+
+            for (let i = 1; i <= 4; i++) {
+                const dropdown = document.getElementById('dropdown' + i);
+                const currentValue = dropdown.value;
+                const funcs = ['A', 'B', 'C', 'D'];
+                dropdown.innerHTML = funcs.filter(f => !selectedValues.includes(f) || f === currentValue)
+                                          .map(f => `<option value="${f}"${f === currentValue ? ' selected' : ''}>${f}</option>`)
+                                          .join('');
+                dropdown.insertAdjacentHTML('afterbegin', '<option value="">选择</option>');
+            }
+        }
+
+        // 执行函数
+        function executeFunctions() {
+            let input = Number(document.getElementById('initialValue').value);
+            let order = [];
+            for (let i = 1; i <= 4; i++) {
+                const value = document.getElementById('dropdown' + i).value;
+                if (value) order.push(value);
+            }
+
+            order.forEach(func => {
+                switch (func) {
+                    case 'A': input = funcA(input); break;
+                    case 'B': input = funcB(input); break;
+                    case 'C': input = funcC(input); break;
+                    case 'D': input = funcD(input); break;
+                }
+            });
+
+            document.getElementById('result').textContent = "最终结果：" + input;
+        }
+    </script>
+</head>
+<body>
+    输入初始值：<input type="number" id="initialValue" placeholder="Enter initial value"><br>
+    函数执行顺序：<br>
+    <select id="dropdown1"></select>
+    <select id="dropdown2"></select>
+    <select id="dropdown3"></select>
+    <select id="dropdown4"></select>
+    <button onclick="executeFunctions()">执行</button>
+    <div id="result">结果显示在这里</div>
+</body>
+</html>
