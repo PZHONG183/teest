@@ -5,3 +5,7 @@ function funcB(input) {
 function execute(input) {
     return funcB(input);
 }
+window.executeB = function(input) {
+    console.log("Executing Script B with input:", input);
+    return input * 3;
+};
