@@ -1,6 +1,7 @@
 
     export function P_sat_check() {
         let FV = parseFloat(document.getElementsByName('FV')[0].value) || 0;
+        let T_out = parseFloat(document.getElementsByName('T_out')[0].value) || 0;
         let T_expansion = (T_out + 273.15)/273;
         let P_sat = Math.pow(10, log10P) * 0.1333;//kpa
         let mass_P_sat = 18.02 * P_sat * 1000 / (8.3145*(T_out + 273.15)) ; // g/m3
