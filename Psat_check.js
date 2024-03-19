@@ -1,5 +1,5 @@
 
-    function P_sat_check() {
+    export function P_sat_check() {
         var selectedValue; // 這裡也用 var 聲明
         var mole_tot_out_check;
         var gas_mass_psat =FV * T_expansion * mass_P_sat /1000;//kg/hr
