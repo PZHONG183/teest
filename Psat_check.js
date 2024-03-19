@@ -1,5 +1,9 @@
 
     export function P_sat_check() {
+        const a = 8.07131;
+        const b = 1730.63;
+        const c = 233.426;
+        const log10P = a - (b / (c + T_out)); 
         let FV = parseFloat(document.getElementsByName('FV')[0].value) || 0;
         let T_out = parseFloat(document.getElementsByName('T_out')[0].value) || 0;
         let T_expansion = (T_out + 273.15)/273;
