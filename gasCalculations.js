@@ -16,7 +16,7 @@ export const tableData = {
 
 export function findClosestRowValue(temp) {
   const rows = [100, 200, 300, 400, 500, 600, 700, 800];
-   console.log(closestT);
+
   return rows.reduce((prev, curr) => (Math.abs(curr - temp) < Math.abs(prev - temp) ? curr : prev));
 }
 
