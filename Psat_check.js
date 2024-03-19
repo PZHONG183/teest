@@ -1,4 +1,4 @@
- P_sat_check();
+
     function P_sat_check() {
         var selectedValue; // 這裡也用 var 聲明
         var mole_tot_out_check;
