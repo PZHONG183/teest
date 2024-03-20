@@ -20,11 +20,11 @@ const tableData = {
 function findClosestRowValue(temp) {
   const rows = [100, 200, 300, 400, 500, 600, 700, 800];
   return rows.reduce((prev, curr) => (Math.abs(curr - temp) < Math.abs(prev - temp) ? curr : prev));
-}
+};
 
 function findRowValues(row, table) {
   return table[row] || null;
-}
+};
 
 
 function FN2(N2, FV, rowDataT, rowDataT_out) {
@@ -38,7 +38,7 @@ function FN2(N2, FV, rowDataT, rowDataT_out) {
     var cp_N2_out = parseFloat(rowDataT_out.N2); // Use 'O2' column from T_out row data for result3 calculation
     return [percent_N2, volume_N2, kg_flow_N2, cp_N2_in, cp_N2_out, mole_flow_N2];
     
-}
+};
 
 
 
@@ -53,7 +53,7 @@ function FO2(O2, FV, rowDataT, rowDataT_out) {
     var cp_O2_out = parseFloat(rowDataT_out.O2); // Use 'O2' column from T_out row data for result3 calculation
     return [percent_O2, volume_O2, kg_flow_O2, cp_O2_in, cp_O2_out,mole_flow_O2 ];
     
-}
+};
 
 function FCO2(CO2, FV, rowDataT, rowDataT_out) {
     var M_CO2 = 44.01; // Molecular weight of CO2
@@ -66,7 +66,7 @@ function FCO2(CO2, FV, rowDataT, rowDataT_out) {
     var cp_CO2_out = parseFloat(rowDataT_out.CO2); // Use 'O2' column from T_out row data for result3 calculation
     return [percent_CO2, volume_CO2, kg_flow_CO2, cp_CO2_in, cp_CO2_out,mole_flow_CO2 ];
     
-}
+};
 
 function FSO2(SO2, FV, rowDataT, rowDataT_out) {
     var M_SO2 =64.06; // Molecular weight of SO2
@@ -79,7 +79,7 @@ function FSO2(SO2, FV, rowDataT, rowDataT_out) {
     var cp_SO2_out = parseFloat(rowDataT_out.SO2); // Use 'O2' column from T_out row data for result3 calculation
     return [percent_SO2, volume_SO2, kg_flow_SO2, cp_SO2_in, cp_SO2_out, mole_flow_SO2];
     
-}
+};
 
 function FNO2(NO2, FV, rowDataT, rowDataT_out) {
     var M_NO2 =46.0005; // Molecular weight of NO2
@@ -92,7 +92,7 @@ function FNO2(NO2, FV, rowDataT, rowDataT_out) {
     var cp_NO2_out = parseFloat(rowDataT_out.NO2); // Use 'O2' column from T_out row data for result3 calculation
     return [percent_NO2, volume_NO2, kg_flow_NO2, cp_NO2_in, cp_NO2_out, mole_flow_NO2];
     
-}
+};
 function FHCL(HCL, FV, rowDataT, rowDataT_out) {
     var M_HCL =36.5; // Molecular weight of NO2
     var percent_HCL = HCL * 0.0001;
@@ -104,7 +104,7 @@ function FHCL(HCL, FV, rowDataT, rowDataT_out) {
     var cp_HCL_out = parseFloat(rowDataT_out.HCL); // Use 'O2' column from T_out row data for result3 calculation
     return [percent_HCL, volume_HCL, kg_flow_HCL, cp_HCL_in, cp_HCL_out, mole_flow_HCL];
     
-}
+};
 function FH2S(H2S, FV, rowDataT, rowDataT_out) {
     var M_H2S =34.0; // Molecular weight of NO2
     var percent_H2S = H2S * 0.0001;
@@ -116,7 +116,7 @@ function FH2S(H2S, FV, rowDataT, rowDataT_out) {
     var cp_H2S_out = parseFloat(rowDataT_out.H2S); // Use 'O2' column from T_out row data for result3 calculation
     return [percent_H2S, volume_H2S, kg_flow_H2S, cp_H2S_in, cp_H2S_out, mole_flow_H2S];
     
-}
+};
 function FH2O(H2O, FV, rowDataT, rowDataT_out) {
     var M_H2O =18.02; // Molecular weight of NO2
     var percent_H2O = H2O;
@@ -128,7 +128,7 @@ function FH2O(H2O, FV, rowDataT, rowDataT_out) {
     var cp_H2O_out = parseFloat(rowDataT_out.H2O); // Use 'O2' column from T_out row data for result3 calculation
     return [percent_H2O, volume_H2O, kg_flow_H2O, cp_H2O_in, cp_H2O_out, mole_flow_H2O];
     
-}
+};
 function FCO(FV, rowDataT, rowDataT_out) {
     var M_CO =28.0; // Molecular weight of NO2
 
@@ -136,7 +136,7 @@ function FCO(FV, rowDataT, rowDataT_out) {
     var cp_CO_out = parseFloat(rowDataT_out.CO); // Use 'O2' column from T_out row data for result3 calculation
     return [M_CO, cp_CO_in, cp_CO_out];
     
-}
+};
 
 document.getElementById('gasForm').addEventListener('submit', function(e) {
   e.preventDefault(); // Prevent form from submitting
@@ -171,7 +171,7 @@ document.getElementById('gasForm').addEventListener('submit', function(e) {
   
   var P = parseFloat(document.getElementsByName('P')[0].value) || 0;
   var FV = parseFloat(document.getElementsByName('FV')[0].value) || 0;
-
+  });
   var closestT = findClosestRowValue(T);
   var closestT_out = findClosestRowValue(T_out);
 
