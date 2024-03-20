@@ -121,7 +121,7 @@ function FH2O(H2O, FV, rowDataT, rowDataT_out) {
     var volume_H2O = FV * H2O / 100; // Volume of O2 in Nm3/hr
     var kg_flow_H2O = volume_H2O / 22.4 * M_H2O; // Molar flow of O2
     // Assuming you want to use a value related to T_out from rowValuesT_out
-   export var mole_flow_H2O = volume_H2O / 22.4 ; 
+   var mole_flow_H2O = volume_H2O / 22.4 ; 
     var cp_H2O_in = parseFloat(rowDataT.H2O);
     var cp_H2O_out = parseFloat(rowDataT_out.H2O); // Use 'O2' column from T_out row data for result3 calculation
     return [percent_H2O, volume_H2O, kg_flow_H2O, cp_H2O_in, cp_H2O_out, mole_flow_H2O];
