@@ -135,7 +135,8 @@ function FCO(FV, rowDataT, rowDataT_out) {
     return [M_CO, cp_CO_in, cp_CO_out];
     
 };
-  return[
-    cp_CO_in, cp_CO_out
-  ];
+  return{
+    A:cp_CO_in, 
+    B:cp_CO_out
+  };
 }
