@@ -458,6 +458,6 @@ document.getElementById('gasForm').addEventListener('submit', function(e) {
     // 根据选中的值进行操作的函数
 
 
-    }
-  }
+   
+  });
 }
