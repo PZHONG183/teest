@@ -1,5 +1,57 @@
 export function FGD(){
-const data = [
+
+document.getElementById('gasForm').addEventListener('submit', function(e) {
+  e.preventDefault(); // Prevent form from submitting
+
+
+
+  
+  var T = parseFloat(document.getElementsByName('T')[0].value) || 0;
+  var T_out = parseFloat(document.getElementsByName('T_out')[0].value) || 0;
+  
+  var N2 = parseFloat(document.getElementsByName('N2')[0].value) || 0;
+  var O2 = parseFloat(document.getElementsByName('O2')[0].value) || 0;
+  var CO2 = parseFloat(document.getElementsByName('CO2')[0].value) || 0;
+  var H2O = parseFloat(document.getElementsByName('H2O')[0].value) || 0;
+  var SO2 = parseFloat(document.getElementsByName('SO2')[0].value) || 0;
+  var NO2 = parseFloat(document.getElementsByName('NO2')[0].value) || 0;
+  var HCL = parseFloat(document.getElementsByName('HCL')[0].value) || 0;
+  var H2S = parseFloat(document.getElementsByName('H2S')[0].value) || 0;
+  var demister = parseFloat(document.getElementsByName('demister')[0].value) || 0;
+  var demister_time = parseFloat(document.getElementsByName('demister_time')[0].value) || 0;
+  var demister_number = parseFloat(document.getElementsByName('demister_number')[0].value) || 0;
+  var drug_T = parseFloat(document.getElementsByName('drug_T')[0].value) || 0;
+  var demister_T = parseFloat(document.getElementsByName('demister_T')[0].value) || 0;
+
+ 
+  var DE_SOX = parseFloat(document.getElementsByName('DE_SOX')[0].value) || 0;
+  var DE_NOX = parseFloat(document.getElementsByName('DE_NOX')[0].value) || 0;
+  var DE_HCL = parseFloat(document.getElementsByName('DE_HCL')[0].value) || 0;
+  var DE_H2S = parseFloat(document.getElementsByName('DE_H2S')[0].value) || 0;  
+  
+
+  
+  var P = parseFloat(document.getElementsByName('P')[0].value) || 0;
+  var FV = parseFloat(document.getElementsByName('FV')[0].value) || 0;
+
+  var closestT = findClosestRowValue(T);
+  var closestT_out = findClosestRowValue(T_out);
+
+  let rowValuesT = findRowValues(closestT, tableData);
+  let rowValuesT_out = findRowValues(closestT_out, tableData);
+  
+});
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  const data = [
   ['25', '20'],
   ['45', '40'],
 ];
@@ -135,8 +187,10 @@ function FCO(FV, rowDataT, rowDataT_out) {
     return [M_CO, cp_CO_in, cp_CO_out];
     
 };
+ const resultFCO = FCO(FV, rowDataT, rowDataT_out);
+
   return{
-    A:cp_CO_in, 
-    B:cp_CO_out
+    A:resultFCO.cp_CO_in, 
+    B:resultFCO.cp_CO_out
   };
 }
