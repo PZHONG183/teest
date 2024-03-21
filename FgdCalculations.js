@@ -20,5 +20,19 @@ window.gasCalculations = {
     findRowValues: function(row) {
         return this.tableData[row] || null;
     },
-    
+    FN2: function(N2, FV, T, T_out) {
+        var M_N2 = 28.02; // Molecular weight of N2
+        var percent_N2 = N2;
+        var volume_N2 = FV * N2 / 100; // Volume of N2 in Nm3/hr
+        var mole_flow_N2 = volume_N2 / 22.4;
+        var kg_flow_N2 = mole_flow_N2 * M_N2; // Kg flow of N2
+
+        var rowDataT = this.findRowValues(this.findClosestRowValue(T));
+        var rowDataT_out = this.findRowValues(this.findClosestRowValue(T_out));
+
+        var cp_N2_in = parseFloat(rowDataT.N2);
+        var cp_N2_out = parseFloat(rowDataT_out.N2);
+
+        return [percent_N2, volume_N2, kg_flow_N2, cp_N2_in, cp_N2_out, mole_flow_N2];
+    }
 };
