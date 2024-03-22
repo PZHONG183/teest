@@ -94,7 +94,8 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out) {
         CP_in: CP_in,
         H_tot_in: H_tot_in,
         H_tot_drop: H_tot_drop,
-        delta_H: delta_H
+        delta_H: delta_H,
+        coPercent:coPercent
     };
 }
 
