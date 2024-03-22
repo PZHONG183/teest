@@ -20,38 +20,49 @@ window.gasCalculations = {
     findRowValues: function(row) {
         return this.tableData[row] || null;
     },
-    calculateGas: function(gas, FV, T, T_out) {
-        var M = { // 分子量
-            'N2': 28.02,
-            'O2': 32.0,
-            'CO2': 44.01,
-            'SO2': 64.06,
-            'NO2': 46.0005,
-            'HCL': 36.5,
-            'H2S': 34.0,
-            'H2O': 18.02,
-            'CO': 28,
-            // 添加其他氣體分子量
-        };
-        var volume_gas = FV * gas / 100; // Volume of gas in Nm3/hr
-        var mole_flow_gas = volume_gas / 22.4;
-        var kg_flow_gas = mole_flow_gas * M[gas]; // Kg flow of gas
+calculateGas: function(gasName, gasPercent, FV, T, T_out) {
+    var M = { // 分子量
+        'N2': 28.02,
+        'O2': 32.0,
+        'CO2': 44.01,
+        'SO2': 64.06,
+        'NO2': 46.0005,
+        'HCL': 36.5,
+        'H2S': 34.0,
+        'H2O': 18.02,
+        'CO': 28,
+        // 添加其他氣體分子量
+    };
 
-        var rowDataT = this.findRowValues(this.findClosestRowValue(T));
-        var rowDataT_out = this.findRowValues(this.findClosestRowValue(T_out));
-
-        var cp_gas_in = parseFloat(rowDataT[gas]);
-        var cp_gas_out = parseFloat(rowDataT_out[gas]);
-
-        return [volume_gas, kg_flow_gas, cp_gas_in, cp_gas_out, mole_flow_gas];
-    },
-    Gas_out_composition: function(Gas_composition, FV, T, T_out){
-        var results = {};
-        for (var gas in Gas_composition) {
-            if (Gas_composition.hasOwnProperty(gas)) {
-                results[gas] = this.calculateGas(gas, FV, T, T_out);
-            }
-        }
-        return results;
+    // 對特定氣體進行百分比調整
+    var adjustedPercent = gasPercent;
+    if (gasName === 'SO2' || gasName === 'NO2' || gasName === 'HCL' || gasName === 'H2S') {
+        adjustedPercent *= 0.0001; // 對SO2, NO2, HCL, H2S的百分比進行調整
     }
+
+    var volume_gas = FV * adjustedPercent / 100; // Volume of gas in Nm3/hr
+    var mole_flow_gas = volume_gas / 22.4;
+    var kg_flow_gas = mole_flow_gas * M[gasName]; // Kg flow of gas
+
+    var rowDataT = this.findRowValues(this.findClosestRowValue(T));
+    var rowDataT_out = this.findRowValues(this.findClosestRowValue(T_out));
+
+    var cp_gas_in = parseFloat(rowDataT[gasName]);
+    var cp_gas_out = parseFloat(rowDataT_out[gasName]);
+
+    return [volume_gas, kg_flow_gas, cp_gas_in, cp_gas_out, mole_flow_gas];
+},
+
+Gas_out_composition: function(Gas_composition, FV, T, T_out) {
+    var results = {};
+    for (var gasName in Gas_composition) {
+        if (Gas_composition.hasOwnProperty(gasName)) {
+            var gasPercent = Gas_composition[gasName];
+            results[gasName] = this.calculateGas(gasName, gasPercent, FV, T, T_out);
+        }
+    }
+    return results;
+}
+
+  
     };
