@@ -52,17 +52,55 @@ calculateGas: function(gasName, gasPercent, FV, T, T_out) {
 
     return [volume_gas, kg_flow_gas, cp_gas_in, cp_gas_out, mole_flow_gas];
 },
-
 Gas_out_composition: function(Gas_composition, FV, T, T_out) {
-    var results = {};
+    var results = {}; // 正确初始化results对象
+    var totalPercentExcludingCO = 0; // 初始化排除CO的百分比总和
+
+    // 计算除CO外的各成分
     for (var gasName in Gas_composition) {
-        if (Gas_composition.hasOwnProperty(gasName)) {
+        if (Gas_composition.hasOwnProperty(gasName) && gasName !== 'CO') { // 排除CO
             var gasPercent = Gas_composition[gasName];
+            totalPercentExcludingCO += gasPercent; // 累加百分比
             results[gasName] = this.calculateGas(gasName, gasPercent, FV, T, T_out);
         }
     }
-    return results;
+
+    // 计算CO的百分比，假定总和为100%
+    var coPercent = 100 - totalPercentExcludingCO;
+    if (coPercent < 0) {
+        console.error("Error: The sum of gas percentages exceeds 100%");
+        coPercent = 0; // 避免负百分比
+    } else {
+        // 为CO计算体积流量及其他参数，仅当coPercent为正数时执行
+        results['CO'] = this.calculateGas('CO', coPercent, FV, T, T_out);
+    }
+
+    // 之后的代码保持不变
+    var CP_in = 0;
+    var H_tot_drop = 0; // 重新初始化，因为我们会重新计算它
+    for (var gasName in results) {
+        var gasResult = results[gasName];
+        CP_in += gasResult[0] * gasResult[3]; // 体积流量 * 入口比热
+        // 注意：现在包括了CO在内的所有气体
+        H_tot_drop += gasResult[1] * gasResult[4] * T_out; // 质量流量 * 出口比热 * 出口温度
+    }
+    CP_in /= 100; // 根据定义进行调整
+    var H_tot_in = FV * CP_in * T; // 总入口热量
+    var delta_H = H_tot_in - H_tot_drop; // 热量变化
+
+    // 返回计算结果
+    return {
+        result_tot: results,
+        CP_in: CP_in,
+        H_tot_in: H_tot_in,
+        H_tot_drop: H_tot_drop,
+        delta_H: delta_H
+    };
 }
+
+
+
+
 
   
     };
