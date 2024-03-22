@@ -20,19 +20,38 @@ window.gasCalculations = {
     findRowValues: function(row) {
         return this.tableData[row] || null;
     },
-    FN2: function(N2, FV, T, T_out) {
-        var M_N2 = 28.02; // Molecular weight of N2
-        var percent_N2 = N2;
-        var volume_N2 = FV * N2 / 100; // Volume of N2 in Nm3/hr
-        var mole_flow_N2 = volume_N2 / 22.4;
-        var kg_flow_N2 = mole_flow_N2 * M_N2; // Kg flow of N2
+    calculateGas: function(gas, FV, T, T_out) {
+        var M = { // 分子量
+            'N2': 28.02,
+            'O2': 32.0,
+            'CO2': 44.01,
+            'SO2': 64.06,
+            'NO2': 46.0005,
+            'HCL': 36.5,
+            'H2S': 34.0,
+            'H2O': 18.02,
+            'CO': 28,
+            // 添加其他氣體分子量
+        };
+        var volume_gas = FV * gas / 100; // Volume of gas in Nm3/hr
+        var mole_flow_gas = volume_gas / 22.4;
+        var kg_flow_gas = mole_flow_gas * M[gas]; // Kg flow of gas
 
         var rowDataT = this.findRowValues(this.findClosestRowValue(T));
         var rowDataT_out = this.findRowValues(this.findClosestRowValue(T_out));
 
-        var cp_N2_in = parseFloat(rowDataT.N2);
-        var cp_N2_out = parseFloat(rowDataT_out.N2);
+        var cp_gas_in = parseFloat(rowDataT[gas]);
+        var cp_gas_out = parseFloat(rowDataT_out[gas]);
 
-        return [percent_N2, volume_N2, kg_flow_N2, cp_N2_in, cp_N2_out, mole_flow_N2];
+        return [volume_gas, kg_flow_gas, cp_gas_in, cp_gas_out, mole_flow_gas];
+    },
+    Gas_out_composition: function(Gas_composition, FV, T, T_out){
+        var results = {};
+        for (var gas in Gas_composition) {
+            if (Gas_composition.hasOwnProperty(gas)) {
+                results[gas] = this.calculateGas(gas, FV, T, T_out);
+            }
+        }
+        return results;
     }
-};
+    };
