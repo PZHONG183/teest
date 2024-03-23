@@ -88,8 +88,24 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out) {
     CP_in /= 100; // 根据定义进行调整
     var H_tot_in = FV * CP_in * T; // 总入口热量
     var delta_H = H_tot_in - H_tot_drop; // 热量变化
-
+    var makeup_water = delta_H / 560;// ...计算makeup_water...
+    var makeup_water_mole = makeup_water / 18.02 ;// ...计算makeup_water_mole...
     // 返回计算结果
+    //以下計算飽和蒸汽壓
+    const a = 8.07131;
+    const b = 1730.63;
+    const c = 233.426;
+    const log10P = a - (b / (c + T_out));
+    const P_sat = Math.pow(10, log10P) * 0.1333;//kpa
+    const mass_P_sat = 18.02 * P_sat * 1000 / (8.3145*(T_out + 273.15)) ;
+    const percent_P = P_sat * 100 / P ;
+
+    var mole_tot_in = 0,  mole_tot_out = 0;
+    for (var gasName in results) {
+        mole_tot_in += results[gasName][5];
+        mole_tot_out = mole_tot_in + makeup_water_mole;
+        percent_P_2 = 100* (makeup_water_mole + results['H2O'][5]) / mole_tot_out ; 
+    }
     return {
         result_tot: results,
         CP_in: CP_in,
@@ -97,7 +113,10 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out) {
         H_tot_drop: H_tot_drop,
         delta_H: delta_H,
         coPercent:coPercent,
-        totalPercentExcludingCO:totalPercentExcludingCO
+        totalPercentExcludingCO:totalPercentExcludingCO,
+        percent_P_2:percent_P_2,
+        percent_P:percent_P,
+        makeup_water:makeup_water
     };
 }
 
