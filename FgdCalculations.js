@@ -60,8 +60,9 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out) {
     for (var gasName in Gas_composition) {
         if (Gas_composition.hasOwnProperty(gasName) && gasName !== 'CO') { // 排除CO
             var gasPercent = Gas_composition[gasName];
-            totalPercentExcludingCO += gasPercent; // 累加百分比
-            results[gasName] = this.calculateGas(gasName, gasPercent, FV, T, T_out);
+            var gasResult = this.calculateGas(gasName, gasPercent, FV, T, T_out);
+            results[gasName] = gasResult;
+            totalPercentExcludingCO += gasResult[5];
         }
     }
 
