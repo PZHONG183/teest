@@ -52,7 +52,7 @@ calculateGas: function(gasName, gasPercent, FV, T, T_out) {
 
     return [adjustedPercent, volume_gas, kg_flow_gas, cp_gas_in, cp_gas_out, mole_flow_gas ];
 },
-Gas_out_composition: function(Gas_composition, FV, T, T_out) {
+Gas_out_composition: function(Gas_composition, FV, T, T_out, P) {
     var results = {}; // 正确初始化results对象
     var totalPercentExcludingCO = 0; // 初始化排除CO的百分比总和
 
