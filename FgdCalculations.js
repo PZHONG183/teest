@@ -52,7 +52,7 @@ calculateGas: function(gasName, gasPercent, FV, T, T_out) {
 
     return [adjustedPercent, volume_gas, kg_flow_gas, cp_gas_in, cp_gas_out, mole_flow_gas ];
 },
-Gas_out_composition: function(Gas_composition, FV, T, T_out, P) {
+Gas_out_composition: function(Gas_composition, FV, T, T_out, P) {    // 需修改
     var results = {}; // 正确初始化results对象
     var totalPercentExcludingCO = 0; // 初始化排除CO的百分比总和
 
@@ -106,7 +106,7 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P) {
     var mole_tot_in = 0,  mole_tot_out = 0 ,  H2O_coldown = 0,  P_sat_result =0;
     for (var gasName in results) {
         mole_tot_in += results[gasName][5];
-        mole_tot_out = mole_tot_in + makeup_water_mole;
+        mole_tot_out = mole_tot_in + makeup_water_mole;   //需修改
         percent_P_2 = 100* (makeup_water_mole + results['H2O'][5]) / mole_tot_out ; 
 
     if (percent_P_2 < percent_P) {
