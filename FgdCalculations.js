@@ -100,11 +100,24 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P) {
     const mass_P_sat = 18.02 * P_sat * 1000 / (8.3145*(T_out + 273.15)) ;
     const percent_P = P_sat * 100 / P ;
 
-    var mole_tot_in = 0,  mole_tot_out = 0;
+    const T_expansion = (T_out + 273.15)/273;
+    const gas_mass_psat = FV * T_expansion * mass_P_sat /1000;//kg/hr
+    const gas_mole_psat = gas_mass_psat /18.02 ;//kmole/hr
+    var mole_tot_in = 0,  mole_tot_out = 0 ,  H2O_coldown = 0,  P_sat_result =0;
     for (var gasName in results) {
         mole_tot_in += results[gasName][5];
         mole_tot_out = mole_tot_in + makeup_water_mole;
         percent_P_2 = 100* (makeup_water_mole + results['H2O'][5]) / mole_tot_out ; 
+
+    if (percent_P_2 < percent_P) {
+        P_sat_result = percent_P_2;
+        mole_tot_out = mole_tot_in + makeup_water_mole;
+        H2O_coldown = 0;
+    } else {
+        P_sat_result = percent_P;
+        mole_tot_out = (mole_tot_in - results['H2O'][5]) + gas_mole_psat;
+        H2O_coldown = makeup_water - (gas_mass_psat -results['H2O'][2]);
+    }
     }
     return {
         result_tot: results,
@@ -116,13 +129,12 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P) {
         totalPercentExcludingCO:totalPercentExcludingCO,
         percent_P_2:percent_P_2,
         percent_P:percent_P,
-        makeup_water:makeup_water
+        makeup_water:makeup_water,
+        P_sat_result:P_sat_result,
+        mole_tot_out:mole_tot_out,
+        H2O_coldown:H2O_coldown
     };
 }
 
 
-
-
-
-  
-    };
+};
