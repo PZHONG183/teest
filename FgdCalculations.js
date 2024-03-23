@@ -50,7 +50,7 @@ calculateGas: function(gasName, gasPercent, FV, T, T_out) {
     var cp_gas_in = parseFloat(rowDataT[gasName]);
     var cp_gas_out = parseFloat(rowDataT_out[gasName]);
 
-    return [volume_gas, kg_flow_gas, cp_gas_in, cp_gas_out, mole_flow_gas];
+    return [volume_gas, kg_flow_gas, cp_gas_in, cp_gas_out, mole_flow_gas, adjustedPercent ];
 },
 Gas_out_composition: function(Gas_composition, FV, T, T_out) {
     var results = {}; // 正确初始化results对象
