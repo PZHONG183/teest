@@ -158,7 +158,8 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
         gas_flow_out:gas_flow_out,
         H_tot_out:H_tot_out,
         delta_H_2:delta_H_2
-         };
+    };
+}
+
 
 };
-
