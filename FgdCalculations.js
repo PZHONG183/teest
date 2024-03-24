@@ -170,5 +170,6 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
         HCL_out: HCL_out, 
         H2S_out:H2S_out    
     }
-}
 };
+};
+}
