@@ -134,9 +134,9 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
         HCL_out = 100* ((1-DE_HCL/100)*results['HCL'][5]) / mole_tot_out ;
         H2S_out = 100* ((1-DE_H2S/100)*results['H2S'][5]) / mole_tot_out ;
     var H_tot_out= 0, CP_out= 0, gas_flow_out= 0 , delta_H_2= 0;
-         CP_out = N2_out   * results['N2'][4]   + O2_out       * results['O2'][4]  + CO2_out * results['CO2'][4] + 
+         CP_out = (N2_out   * results['N2'][4]   + O2_out       * results['O2'][4]  + CO2_out * results['CO2'][4] + 
                   CO_out   * results['CO'][4]   + SO2_out      * results['SO2'][4] + NO2_out * results['NO2'][4] + HCL_out * results['HCL'][4] +
-                  H2S_out  * results['H2S'][4]  + P_sat_result * results['H2O'][4];    
+                  H2S_out  * results['H2S'][4]  + P_sat_result * results['H2O'][4] ) /100;    
          gas_flow_out = mole_tot_out *22.4;//Nm3/hr
          H_tot_out = gas_flow_out* CP_out* T_out;
          delta_H_2 = H_tot_out - H_tot_in;
