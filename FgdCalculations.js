@@ -141,25 +141,34 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
          H_tot_out = gas_flow_out* CP_out* T_out;
          delta_H_2 = H_tot_out - H_tot_in;
     return {
-        result_tot: results,
+        Gas_IN:{
+        percent_P_2:percent_P_2,
+        percent_P:percent_P,
+        P_sat_result:P_sat_result,
+        mole_tot_out:mole_tot_out,
+        H2O_coldown:H2O_coldown,
+        coPercent:coPercent,
         CP_in: CP_in,
         H_tot_in: H_tot_in,
         H_tot_drop: H_tot_drop,
         delta_H: delta_H,
-        coPercent:coPercent,
-        totalPercentExcludingCO:totalPercentExcludingCO,
-        percent_P_2:percent_P_2,
-        percent_P:percent_P,
         makeup_water:makeup_water,
-        P_sat_result:P_sat_result,
-        mole_tot_out:mole_tot_out,
-        H2O_coldown:H2O_coldown,
+        totalPercentExcludingCO:totalPercentExcludingCO,    
         CP_out:CP_out,
         gas_flow_out:gas_flow_out,
         H_tot_out:H_tot_out,
         delta_H_2:delta_H_2
-    };
+        },
+        result_tot: results,
+        Gas_Out:{
+        N2_out: N2_out,
+        O2_out: O2_out,
+        CO2_out: CO2_out,
+        CO_out: CO_out,
+        SO2_out: SO2_out,
+        NO2_out: NO2_out,
+        HCL_out: HCL_out, 
+        H2S_out:H2S_out    
+    }
 }
-
-
 };
