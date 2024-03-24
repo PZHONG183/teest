@@ -52,7 +52,7 @@ calculateGas: function(gasName, gasPercent, FV, T, T_out) {
 
     return [adjustedPercent, volume_gas, kg_flow_gas, cp_gas_in, cp_gas_out, mole_flow_gas ];
 },
-Gas_out_composition: function(Gas_composition, FV, T, T_out, P) {    // 需修改
+Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S  ) {    // 需修改
     var results = {}; // 正确初始化results对象
     var totalPercentExcludingCO = 0; // 初始化排除CO的百分比总和
 
@@ -119,6 +119,27 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P) {    // 需修�
         H2O_coldown = makeup_water - (gas_mass_psat -results['H2O'][2]);
     }
     }
+    var SO2_remove =0, NO2_remove=0, HCL_remove=0, H2S_remove=0;//需修改
+        SO2_remove = DE_SOX * results['SO2'][5];
+        NO2_remove = DE_NOX * results['NO2'][5];
+        HCL_remove = DE_HCL * results['HCL'][5];
+        H2S_remove = DE_H2S * results['H2S'][5];
+    var N2_out=0, O2_out=0, CO2_out=0, CO_out=0, SO2_out=0, NO2_out=0, HCL_out=0, H2S_out=0;
+        N2_out = 100* results['N2'][5] / mole_tot_out ;
+        O2_out = 100* results['O2'][5] / mole_tot_out ;
+        CO2_out = 100* results['CO2'][5] / mole_tot_out ;
+        CO_out = 100* results['CO'][5] / mole_tot_out ;
+        SO2_out = 100* ((1-DE_SOX/100)*results['SO2'][5]) / mole_tot_out ;
+        NO2_out = 100* ((1-DE_NOX/100)*results['NO2'][5]) / mole_tot_out ;
+        HCL_out = 100* ((1-DE_HCL/100)*results['HCL'][5]) / mole_tot_out ;
+        H2S_out = 100* ((1-DE_H2S/100)*results['H2S'][5]) / mole_tot_out ;
+    var H_tot_out=0, CP_out=0, gas_flow_out=0 , delta_H_2=0;
+         CP_out = N2_out * results['N2'][4]+ O2_out * results['O2'][4] + CO2_out * results['CO2'][4] + 
+                  CO_out * results['CO'][4]+ SO2_out * results['SO2'][4]+ NO2_out * results['N02'][4]+ HCL_out * results['HCL'][4]
+                  H2S_out * results['H2S'][4]+ P_sat_result * results['H20'][4];    
+         gas_flow_out = mole_tot_out *22.4;//Nm3/hr
+         H_tot_out = gas_flow_out* CP_out* T_out;
+         delta_H_2 = H_tot_out - H_tot_in;
     return {
         result_tot: results,
         CP_in: CP_in,
@@ -132,7 +153,11 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P) {    // 需修�
         makeup_water:makeup_water,
         P_sat_result:P_sat_result,
         mole_tot_out:mole_tot_out,
-        H2O_coldown:H2O_coldown
+        H2O_coldown:H2O_coldown,
+        CP_out:CP_out,
+        gas_flow_out:gas_flow_out,
+        H_tot_out:H_tot_out,
+        delta_H_2:delta_H_2
     };
 }
 
