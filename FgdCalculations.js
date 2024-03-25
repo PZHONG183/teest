@@ -169,7 +169,14 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
         HCL_out: HCL_out, 
         H2S_out:H2S_out    
        },
-       result_tot: results
+       result_tot: results,
+       SO2_remove:SO2_remove,
+       NO2_remove:NO2_remove,
+       HCL_remove:HCL_remove,
+       H2S_remove:H2S_remove 
     };
 }
+//function calculateChemicalReactions(drop_down_value, DE_SOX, DE_NOX, DE_HCL, DE_H2S, demister_mass, drug_T, demister_T, T_out){
+    
+//}    
 };
