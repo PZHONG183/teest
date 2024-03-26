@@ -176,7 +176,7 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
        H2S_remove:H2S_remove 
     };
 },
-calculateChemicalReactionsfunction:function(drop_down_value, DE_SOX, DE_NOX, DE_HCL, DE_H2S , T_out){
+calculateChemicalReaction:function(drop_down_value, DE_SOX, DE_NOX, DE_HCL, DE_H2S , T_out){
     let NaOH_mole_SO2 = 0, NaOH__SO2_mass = 0, Na2SO3_mass = 0, SO2_pro_water = 0;
     let MgO_mole_SO2 = 0,  MgO__SO2_mass = 0, MgSO3_mass = 0;
     let NaOH_mole_HCL = 0, NaOH_HCL_mass = 0, NaCL_mass = 0, HCL_pro_water = 0;
