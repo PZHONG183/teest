@@ -239,14 +239,29 @@ calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_
     var tot_pro_water = SO2_pro_water + HCL_pro_water + H2S_pro_water;
     var demister_mass = demister_number * demister_time * demister;
     var water_outflow = cold_down +  tot_pro_water + demister_mass + tot_naoh_mgo_water_mass + tot_soild_mass ;  
-
+    
+    var H_drug = tot_naoh_mgo_water_mass * 1 * drug_T;
+    var H_demister = demister_mass *1 *demister_T;
+    var H_colddown = cold_down * 1 * T_out  ;
+    var H_mass_water_pro =  tot_pro_water *1 *T_out;
+    var H_outflow = H_demister + H_drug + H_colddown + H_mass_water_pro  ;
+    var T_outflow = H_outflow / (cold_down +  tot_pro_water + demister_mass + tot_naoh_mgo_water_mass);
+    
+    var C_Na2SO3 = Na2SO3_mass *1000 / water_outflow ; // mg/L
+    var C_MgSO3 = MgSO3_mass *1000 / water_outflow ; // mg/L
+    var C_NaCL = NaCL_mass *1000 / water_outflow ; // mg/L
+    var C_MgCL2 = MgCL2_mass *1000 / water_outflow ; // mg/LNa2S_mass
+    var C_Na2S = Na2S_mass *1000 / water_outflow ; // mg/L
+    var C_MgS = MgS_mass *1000 / water_outflow ; // mg/L
 
    return  {
    SO2_outlet:SO2_outlet,
    NaOH_SO2_mass:NaOH_SO2_mass,
    MgSO3_mass: MgSO3_mass,
    SO2_pro_water: SO2_pro_water,
-   water_outflow:water_outflow    
+   water_outflow:water_outflow,
+   T_outflow:T_outflow,
+   C_Na2SO3:C_Na2SO3
    };
 }    
 };
