@@ -183,8 +183,8 @@ calculateChemicalReaction:function(drop_down_value, DE_SOX, DE_NOX, DE_HCL, DE_H
     let MgOH_mole_HCL = 0, MgOH_HCL_mass = 0, MgCL2_mass = 0;
     let NaOH_mole_H2S = 0, NaOH_H2S_mass = 0, Na2S_mass = 0, H2S_pro_water = 0;
     let MgOH_mole_H2S = 0, MgOH_H2S_mass = 0, MgS_mass = 0;  
-    let gas_outlet = this.Gas_out_composition(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S  );
-    let SO2_outlet = gas_outlet.SO2_remove;
+    var gas_outlet = this.Gas_out_composition(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S  );
+    var SO2_outlet = gas_outlet.SO2_remove;
     if (SO2_outlet !== 0) {
         if (drop_down_value === "45") {
             // SO2+2NaOH = Na2SO3 + H2O
