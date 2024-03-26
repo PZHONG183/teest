@@ -184,7 +184,9 @@ calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_
     let NaOH_mole_H2S = 0, NaOH_H2S_mass = 0, Na2S_mass = 0, H2S_pro_water = 0;
     let MgOH_mole_H2S = 0, MgOH_H2S_mass = 0, MgS_mass = 0;  
     var gas_outlet = this.Gas_out_composition(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S  );
-    var SO2_outlet = gas_outlet.SO2_remove;
+    var SO2_outlet = gas_outlet.result_tot.SO2_remove;
+    var HCL_outlet = gas_outlet.result_tot.HCL_remove;
+    var H2S_outlet = gas_outlet.result_tot.H2S_remove;
     var cold_down =  gas_outlet.Gas_IN.H2O_coldown;
     if (SO2_outlet !== 0) {
         if (drop_down_value === "45") {
