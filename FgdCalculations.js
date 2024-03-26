@@ -177,8 +177,8 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
     };
 },
 calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S,drop_down_value ){
-    let NaOH_mole_SO2 = 0, NaOH__SO2_mass = 0, Na2SO3_mass = 0, SO2_pro_water = 0;
-    let MgO_mole_SO2 = 0,  MgO__SO2_mass = 0, MgSO3_mass = 0;
+    let NaOH_mole_SO2 = 0, NaOH_SO2_mass = 0, Na2SO3_mass = 0, SO2_pro_water = 0;
+    let MgO_mole_SO2 = 0,  MgO_SO2_mass = 0, MgSO3_mass = 0;
     //let NaOH_mole_HCL = 0, NaOH_HCL_mass = 0, NaCL_mass = 0, HCL_pro_water = 0;
     //let MgOH_mole_HCL = 0, MgOH_HCL_mass = 0, MgCL2_mass = 0;
     //let NaOH_mole_H2S = 0, NaOH_H2S_mass = 0, Na2S_mass = 0, H2S_pro_water = 0;
@@ -201,7 +201,7 @@ calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_
     }
    return  {
    SO2_outlet:SO2_outlet,
-   NaOH__SO2_mass:NaOH__SO2_mass,
+   NaOH_SO2_mass:NaOH_SO2_mass,
    MgSO3_mass: MgSO3_mass,
    SO2_pro_water: SO2_pro_water
    };
