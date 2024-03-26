@@ -176,7 +176,7 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
        H2S_remove:H2S_remove 
     };
 },
-calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S,drop_down_value,demister_number, demister_time, demister ){
+calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S,drop_down_value,demister_number, demister_time, demister,drug_T,demister_T, makeup_T ){
     let NaOH_mole_SO2 = 0, NaOH_SO2_mass = 0, Na2SO3_mass = 0, SO2_pro_water = 0;
     let MgO_mole_SO2 = 0,  MgO_SO2_mass = 0, MgSO3_mass = 0;
     let NaOH_mole_HCL = 0, NaOH_HCL_mass = 0, NaCL_mass = 0, HCL_pro_water = 0;
@@ -188,6 +188,7 @@ calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_
     var HCL_outlet = gas_outlet.HCL_remove;
     var H2S_outlet = gas_outlet.H2S_remove;
     var cold_down =  gas_outlet.Gas_IN.H2O_coldown;
+    var makeup_water =  gas_outlet.Gas_IN.makeup_water;
     if (SO2_outlet !== 0) {
         if (drop_down_value === "45") {
             // SO2+2NaOH = Na2SO3 + H2O
@@ -240,12 +241,13 @@ calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_
     var demister_mass = demister_number * demister_time * demister;
     var water_outflow = cold_down +  tot_pro_water + demister_mass + tot_naoh_mgo_water_mass + tot_soild_mass ;  
     
+    var H_makeupwater = makeup_water * 1 * makeup_T;
     var H_drug = tot_naoh_mgo_water_mass * 1 * drug_T;
     var H_demister = demister_mass *1 *demister_T;
     var H_colddown = cold_down * 1 * T_out  ;
     var H_mass_water_pro =  tot_pro_water *1 *T_out;
-    var H_outflow = H_demister + H_drug + H_colddown + H_mass_water_pro  ;
-    var T_outflow = H_outflow / (cold_down +  tot_pro_water + demister_mass + tot_naoh_mgo_water_mass);
+    var H_outflow = H_demister + H_drug + H_colddown + H_mass_water_pro + H_makeupwater  ;
+    var T_outflow = H_outflow / (cold_down +  tot_pro_water + demister_mass + tot_naoh_mgo_water_mass+ makeup_water);
     
     var C_Na2SO3 = Na2SO3_mass *1000 / water_outflow ; // mg/L
     var C_MgSO3 = MgSO3_mass *1000 / water_outflow ; // mg/L
