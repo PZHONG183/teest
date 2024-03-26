@@ -176,15 +176,16 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
        H2S_remove:H2S_remove 
     };
 },
-calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S,drop_down_value ){
+calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S,drop_down_value,demister_number, demister_time, demister ){
     let NaOH_mole_SO2 = 0, NaOH_SO2_mass = 0, Na2SO3_mass = 0, SO2_pro_water = 0;
     let MgO_mole_SO2 = 0,  MgO_SO2_mass = 0, MgSO3_mass = 0;
-    //let NaOH_mole_HCL = 0, NaOH_HCL_mass = 0, NaCL_mass = 0, HCL_pro_water = 0;
-    //let MgOH_mole_HCL = 0, MgOH_HCL_mass = 0, MgCL2_mass = 0;
-    //let NaOH_mole_H2S = 0, NaOH_H2S_mass = 0, Na2S_mass = 0, H2S_pro_water = 0;
-    //let MgOH_mole_H2S = 0, MgOH_H2S_mass = 0, MgS_mass = 0;  
+    let NaOH_mole_HCL = 0, NaOH_HCL_mass = 0, NaCL_mass = 0, HCL_pro_water = 0;
+    let MgOH_mole_HCL = 0, MgOH_HCL_mass = 0, MgCL2_mass = 0;
+    let NaOH_mole_H2S = 0, NaOH_H2S_mass = 0, Na2S_mass = 0, H2S_pro_water = 0;
+    let MgOH_mole_H2S = 0, MgOH_H2S_mass = 0, MgS_mass = 0;  
     var gas_outlet = this.Gas_out_composition(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S  );
     var SO2_outlet = gas_outlet.SO2_remove;
+    var cold_down =  gas_outlet.Gas_IN.H2O_coldown;
     if (SO2_outlet !== 0) {
         if (drop_down_value === "45") {
             // SO2+2NaOH = Na2SO3 + H2O
@@ -199,11 +200,51 @@ calculateChemicalReaction:function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_
         }
         SO2_pro_water = SO2_outlet * 18.02;
     }
+    if (HCL_outlet !== 0) {
+        if (drop_down_value === "45") {
+            // HCL + NaOH = NaCL + H2O
+            NaOH_mole_HCL = HCL_outlet;
+            NaOH_HCL_mass = NaOH_mole_HCL * 40; // 假设单位质量
+            NaCL_mass = HCL_outlet * 58.44;
+        } else if (drop_down_value === "25") {
+            // 2HCL + Mg(OH)2 = MgCl2 + 2H2O
+            MgOH_mole_HCL = HCL_outlet / 2;
+            MgOH_HCL_mass = MgOH_mole_HCL * 58.3197;
+            MgCL2_mass = HCL_outlet * 95.211 / 2;
+        }
+        HCL_pro_water = HCL_outlet * 18.02;
+    }
+    if (H2S_outlet !== 0) {
+        if (drop_down_value === "45") {
+            // H2S + 2NaOH = 2H2O + Na2S
+            NaOH_mole_H2S = H2S_outlet * 2;
+            NaOH_H2S_mass = NaOH_mole_H2S * 40; // 假设单位质量
+            Na2S_mass = H2S_outlet * 78.05;
+        } else if (drop_down_value === "25") {
+            // H2S + Mg(OH)2 = 2H2O + MgS
+            MgOH_mole_H2S = H2S_outlet;
+            MgOH_H2S_mass = MgOH_mole_H2S * 58.3197;
+            MgS_mass = H2S_outlet * 56.38;           
+        }
+        H2S_pro_water = 2 * H2S_outlet*18.02;
+    } 
+    var tot_NaOH_mass = NaOH_SO2_mass + NaOH_HCL_mass + NaOH_H2S_mass;
+    var tot_MgOH_mass = MgO_SO2_mass + MgOH_HCL_mass + MgOH_H2S_mass;
+    var tot_NaOH_water_mass = tot_NaOH_mass / 0.45;
+    var tot_MOH_water_mass = tot_MgOH_mass / 0.25;
+    var tot_naoh_mgo_water_mass = tot_NaOH_water_mass + tot_MOH_water_mass;
+    var tot_soild_mass = Na2SO3_mass + MgSO3_mass + NaCL_mass + MgCL2_mass + Na2S_mass + MgS_mass;
+    var tot_pro_water = SO2_pro_water + HCL_pro_water + H2S_pro_water;
+    var demister_mass = demister_number * demister_time * demister;
+    var water_outflow = cold_down +  tot_pro_water + demister_mass + tot_naoh_mgo_water_mass + tot_soild_mass ;  
+
+
    return  {
    SO2_outlet:SO2_outlet,
    NaOH_SO2_mass:NaOH_SO2_mass,
    MgSO3_mass: MgSO3_mass,
-   SO2_pro_water: SO2_pro_water
+   SO2_pro_water: SO2_pro_water,
+   water_outflow:water_outflow    
    };
 }    
 };
