@@ -176,32 +176,34 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
        H2S_remove:H2S_remove 
     };
 },
-function calculateChemicalReactions(drop_down_value, DE_SOX, DE_NOX, DE_HCL, DE_H2S, T_out) {
-    // 确保Gas_composition, FV, P在这个作用域中已定义
-    let gas_outlet = this.Gas_out_composition(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S);
-    let SO2_outlet = gas_outlet.SO2_remove;
-
-    let NaOH_mole_SO2 = 0, NaOH_SO2_mass = 0, Na2SO3_mass = 0, SO2_pro_water = 0;
-    let MgO_mole_SO2 = 0, MgO_SO2_mass = 0, MgSO3_mass = 0;
-
+calculateChemicalReaction:function(drop_down_value, DE_SOX, DE_NOX, DE_HCL, DE_H2S , T_out){
+    let NaOH_mole_SO2 = 0, NaOH__SO2_mass = 0, Na2SO3_mass = 0, SO2_pro_water = 0;
+    let MgO_mole_SO2 = 0,  MgO__SO2_mass = 0, MgSO3_mass = 0;
+    //let NaOH_mole_HCL = 0, NaOH_HCL_mass = 0, NaCL_mass = 0, HCL_pro_water = 0;
+    //let MgOH_mole_HCL = 0, MgOH_HCL_mass = 0, MgCL2_mass = 0;
+    //let NaOH_mole_H2S = 0, NaOH_H2S_mass = 0, Na2S_mass = 0, H2S_pro_water = 0;
+    //let MgOH_mole_H2S = 0, MgOH_H2S_mass = 0, MgS_mass = 0;  
+    var gas_outlet = this.Gas_out_composition(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, DE_HCL, DE_H2S  );
+    var SO2_outlet = gas_outlet.SO2_remove;
     if (SO2_outlet !== 0) {
         if (drop_down_value === "45") {
+            // SO2+2NaOH = Na2SO3 + H2O
             NaOH_mole_SO2 = SO2_outlet * 2;
-            NaOH_SO2_mass = NaOH_mole_SO2 * 40; // Assuming unit mass
+            NaOH_SO2_mass = NaOH_mole_SO2 * 40; // 假设单位质量
             Na2SO3_mass = SO2_outlet * 126.043;
         } else if (drop_down_value === "25") {
-            MgO_mole_SO2 = SO2_outlet;
+            // Mg(OH)2 + SO2 = MgSO3 + H2O
+            MgO_mole_SO2  = SO2_outlet;
             MgO_SO2_mass = MgO_mole_SO2 * 58.3197;
             MgSO3_mass = SO2_outlet * 104.3682;
         }
         SO2_pro_water = SO2_outlet * 18.02;
     }
-
-    return {
-        SO2_outlet: SO2_outlet,
-        NaOH_SO2_mass: NaOH_SO2_mass,
-        MgSO3_mass: MgSO3_mass,
-        SO2_pro_water: SO2_pro_water
-    };
+   return  {
+   SO2_outlet:SO2_outlet,
+   NaOH__SO2_mass:NaOH__SO2_mass,
+   MgSO3_mass: MgSO3_mass,
+   SO2_pro_water: SO2_pro_water
+   };
 }    
 };
