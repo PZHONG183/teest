@@ -1,4 +1,4 @@
-window.executescriptB = function(LG, FV, T) {
+window.executeB = function(LG, FV, T) {
     console.log("Executing Script B with input:", LG, FV, T);
     // 示例操作：将 N2 减少 5%
     N2 = N2 * 0.95;
