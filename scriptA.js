@@ -1,13 +1,9 @@
-// scriptA.js
-// scriptA.js
-window.executeA = function(LG, FV, T) {
+export function executeA(LG, FV, T) {
     console.log("Executing Script A with input:", LG, FV, T);
-    // 示例操作：将 FV 增加 10%
-    LG = LG * 1.1;
+    LG = LG * 1.1; // 示例操作：将 LG 增加 10%
     console.log("Executing Script A with output:", LG, FV, T);
-    return {
-     LG : LG,
-     FV : FV,
-       T: T
-   };
-};
+    return { LG, FV, T };
+}
+
+// 同时将函数赋值给window对象，使其在全局作用域下可用
+window.executeA = executeA;
