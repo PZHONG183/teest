@@ -1,4 +1,4 @@
-export function executeA(LG, FV, T) {
+ function executeA(LG, FV, T) {
     console.log("Executing Script A with input:", LG, FV, T);
     LG = LG * 1.1; // 示例操作：将 LG 增加 10%
     console.log("Executing Script A with output:", LG, FV, T);
