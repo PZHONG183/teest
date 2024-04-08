@@ -124,7 +124,8 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
         NO2_remove = DE_NOX * results['NO2'][5] /100;
         HCL_remove = DE_HCL * results['HCL'][5] /100;
         H2S_remove = DE_H2S * results['H2S'][5] /100;
-    var N2_out=0, O2_out=0, CO2_out=0, CO_out=0, SO2_out=0, NO2_out=0, HCL_out=0, H2S_out=0;
+    var N2_out=0, O2_out=0, CO2_out=0, CO_out=0, SO2_out=0, NO2_out=0, HCL_out=0, H2S_out=0, H2O_out=0;
+        H2O_out = P_sat_result;
         N2_out = 100* results['N2'][5] / mole_tot_out ;
         O2_out = 100* results['O2'][5] / mole_tot_out ;
         CO2_out = 100* results['CO2'][5] / mole_tot_out ;
@@ -160,6 +161,7 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
         delta_H_2:delta_H_2
         },
         Gas_Out:{
+        H2O_out:H2O_out,
         N2_out: N2_out,
         O2_out: O2_out,
         CO2_out: CO2_out,
