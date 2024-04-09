@@ -174,6 +174,7 @@ Gas_out_composition: function(Gas_composition, FV, T, T_out, P, DE_SOX, DE_NOX, 
         delta_H_2:delta_H_2
         },
         Gas_Out:{
+        TE_out:T_out,
         H2O_out:H2O_out,
         N2_out: N2_out,
         O2_out: O2_out,
